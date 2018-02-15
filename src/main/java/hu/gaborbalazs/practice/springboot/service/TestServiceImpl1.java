@@ -1,8 +1,8 @@
 package hu.gaborbalazs.practice.springboot.service;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component("impl1")
+@Service("impl1")
 public class TestServiceImpl1 implements TestService {
 
 	@Override
