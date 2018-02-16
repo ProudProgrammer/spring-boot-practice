@@ -1,5 +1,7 @@
 package hu.gaborbalazs.practice.springboot;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import hu.gaborbalazs.practice.springboot.component.DefaultBean;
 import hu.gaborbalazs.practice.springboot.component.RequestBean;
 import hu.gaborbalazs.practice.springboot.component.SessionBean;
 import hu.gaborbalazs.practice.springboot.domain.TestDto;
+import hu.gaborbalazs.practice.springboot.entity.Car;
 import hu.gaborbalazs.practice.springboot.repository.CarRepository;
 import hu.gaborbalazs.practice.springboot.service.TestService;
 import springfox.documentation.builders.PathSelectors;
@@ -62,7 +65,7 @@ public class SampleController {
 		return "Hello World!";
 	}
 
-	@RequestMapping(value = "/scopeTest", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
+	@RequestMapping(value = "/scopeTest", method = RequestMethod.GET, produces = "application/text; charset=UTF-8")
 	public String scopeTest() {
 		defaultBean.increaseNum();
 		requestBean.increaseNum();
@@ -74,8 +77,8 @@ public class SampleController {
 	}
 
 	@RequestMapping(value = "/cars", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
-	public String cars() {
-		return carRepository.findAll().toString();
+	public List<Car> cars() {
+		return carRepository.findAll();
 	}
 
 	@RequestMapping(value = "/testJson", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
