@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -59,10 +60,16 @@ public class SampleController {
 
 	@Autowired
 	private ApplicationBean applicationBean;
+	
+	@Autowired
+	private String message;
+	
+	@Value("${welcome}")
+	private String welcome;
 
 	@RequestMapping("/")
 	public String home() {
-		return "Hello World!";
+		return message + " and " + welcome;
 	}
 
 	@RequestMapping(value = "/scopeTest", method = RequestMethod.GET, produces = "application/text; charset=UTF-8")

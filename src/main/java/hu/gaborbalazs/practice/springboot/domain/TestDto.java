@@ -2,8 +2,6 @@ package hu.gaborbalazs.practice.springboot.domain;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -14,9 +12,10 @@ public class TestDto {
 	private String stringField;
 	private int intField;
 	private String anotherStringField;
-	
-	public TestDto() {}
-	
+
+	public TestDto() {
+	}
+
 	public TestDto(String stringField, int intField) {
 		super();
 		this.stringField = stringField;
@@ -46,8 +45,11 @@ public class TestDto {
 	public void setAnotherStringField(String anotherStringField) {
 		this.anotherStringField = anotherStringField;
 	}
-	
+
+	@Override
 	public String toString() {
-		return ReflectionToStringBuilder.toString(this);
+		return "TestDto [stringField=" + stringField + ", intField=" + intField + ", anotherStringField="
+				+ anotherStringField + "]";
 	}
+
 }
