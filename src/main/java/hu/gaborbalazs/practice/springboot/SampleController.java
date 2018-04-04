@@ -71,6 +71,12 @@ public class SampleController {
 	public String home() {
 		return message + " and " + welcome;
 	}
+	
+	@RequestMapping("/exception")
+	public String exceptionTest() {
+		LOGGER.debug(">> exceptionTest()");
+		throw new IllegalStateException();
+	}
 
 	@RequestMapping(value = "/scopeTest", method = RequestMethod.GET, produces = "application/text; charset=UTF-8")
 	public String scopeTest() {
