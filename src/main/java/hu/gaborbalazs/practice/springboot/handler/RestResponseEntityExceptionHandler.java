@@ -13,7 +13,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
-	private Logger LOGGER = LoggerFactory.getLogger(RestResponseEntityExceptionHandler.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(RestResponseEntityExceptionHandler.class);
 	
 	@ExceptionHandler(IllegalStateException.class)
 	public ResponseEntity<Object> handleIllegalStateException(RuntimeException ex, WebRequest request) {

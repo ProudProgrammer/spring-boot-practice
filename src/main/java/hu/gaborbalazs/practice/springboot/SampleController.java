@@ -36,7 +36,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 public class SampleController {
 
-	private final Logger LOGGER = LoggerFactory.getLogger(SampleController.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(SampleController.class);
 
 	@Autowired
 	@Qualifier("impl1")
@@ -69,6 +69,7 @@ public class SampleController {
 
 	@RequestMapping("/")
 	public String home() {
+		LOGGER.debug(">> home()");
 		return message + " and " + welcome;
 	}
 	
@@ -78,7 +79,7 @@ public class SampleController {
 		throw new IllegalStateException();
 	}
 
-	@RequestMapping(value = "/scopeTest", method = RequestMethod.GET, produces = "application/text; charset=UTF-8")
+	@RequestMapping(value = "/scopeTest", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
 	public String scopeTest() {
 		defaultBean.increaseNum();
 		requestBean.increaseNum();
