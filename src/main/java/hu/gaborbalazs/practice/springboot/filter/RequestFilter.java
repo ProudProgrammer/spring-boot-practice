@@ -10,29 +10,30 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class RequestFilter implements Filter {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(RequestFilter.class);
+	@Autowired
+	private Logger logger;
 
 	@Override
 	public void destroy() {
-		LOGGER.debug(">> destroy()");
+		logger.debug(">> destroy()");
 	}
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		LOGGER.debug(">> doFilter()");
+		logger.debug(">> doFilter()");
 		chain.doFilter(request, response);
 	}
 
 	@Override
 	public void init(FilterConfig config) throws ServletException {
-		LOGGER.debug(">> init()");
+		logger.debug(">> init()");
 	}
 
 }

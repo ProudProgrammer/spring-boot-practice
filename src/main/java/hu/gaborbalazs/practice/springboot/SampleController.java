@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import hu.gaborbalazs.practice.springboot.component.AopTestBean;
 import hu.gaborbalazs.practice.springboot.component.ApplicationBean;
 import hu.gaborbalazs.practice.springboot.component.DefaultBean;
 import hu.gaborbalazs.practice.springboot.component.RequestBean;
@@ -34,9 +36,11 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @RestController
 @SpringBootApplication
+@EnableAspectJAutoProxy
 public class SampleController {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(SampleController.class);
+	@Autowired
+	private Logger logger;
 
 	@Autowired
 	@Qualifier("impl1")
@@ -60,22 +64,31 @@ public class SampleController {
 
 	@Autowired
 	private ApplicationBean applicationBean;
-	
+
 	@Autowired
 	private String message;
-	
+
 	@Value("${welcome}")
 	private String welcome;
+	
+	@Autowired
+	private AopTestBean aopTestBean;
 
 	@RequestMapping("/")
 	public String home() {
-		LOGGER.debug(">> home()");
+		logger.debug(">> home()");
 		return message + " and " + welcome;
 	}
-	
+
+	@RequestMapping("/aop")
+	public String aopTest() {
+		aopTestBean.aopTestMethod();
+		return "aop";
+	}
+
 	@RequestMapping("/exception")
 	public String exceptionTest() {
-		LOGGER.debug(">> exceptionTest()");
+		logger.debug(">> exceptionTest()");
 		throw new IllegalStateException();
 	}
 
@@ -97,37 +110,37 @@ public class SampleController {
 
 	@RequestMapping(value = "/testJson", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
 	public TestDto testJson() {
-		LOGGER.debug("testJson() called");
+		logger.debug("testJson() called");
 		return new TestDto("Hello String", 10);
 	}
 
 	@RequestMapping(value = "/testAnotherJson", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
 	public TestDto testAnotherJson() {
-		LOGGER.debug("testAnotherJson() called");
+		logger.debug("testAnotherJson() called");
 		return new TestDto("Hello String", 10);
 	}
 
 	@RequestMapping(value = "/testXml", method = RequestMethod.GET, produces = "application/xml; charset=UTF-8")
 	public TestDto testXml() {
-		LOGGER.debug("testXml() called");
+		logger.debug("testXml() called");
 		return new TestDto("Hello String", 10);
 	}
 
 	@RequestMapping(value = "/testAnotherXml", method = RequestMethod.GET, produces = "application/xml; charset=UTF-8")
 	public TestDto testAnotherXml() {
-		LOGGER.debug("testAnotherXml() called");
+		logger.debug("testAnotherXml() called");
 		return new TestDto("Hello String", 10);
 	}
 
 	@RequestMapping("/add")
 	public int add() {
-		LOGGER.debug("add() called");
+		logger.debug("add() called");
 		return service1.add(10, 20);
 	}
 
 	@RequestMapping("/add2")
 	public int add2() {
-		LOGGER.debug("add2() called");
+		logger.debug("add2() called");
 		return service2.add(10, 20);
 	}
 
