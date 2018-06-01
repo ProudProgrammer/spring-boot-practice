@@ -3,7 +3,6 @@ package hu.gaborbalazs.practice.springboot;
 import java.util.List;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,6 +10,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.orm.hibernate5.HibernateTransactionManager;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.jta.JtaTransactionManager;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,10 +25,12 @@ import org.springframework.web.bind.annotation.RestController;
 import hu.gaborbalazs.practice.springboot.component.AopTestBean;
 import hu.gaborbalazs.practice.springboot.component.ApplicationBean;
 import hu.gaborbalazs.practice.springboot.component.DefaultBean;
+import hu.gaborbalazs.practice.springboot.component.MyComponent;
 import hu.gaborbalazs.practice.springboot.component.RequestBean;
 import hu.gaborbalazs.practice.springboot.component.SessionBean;
 import hu.gaborbalazs.practice.springboot.domain.TestDto;
 import hu.gaborbalazs.practice.springboot.entity.Car;
+import hu.gaborbalazs.practice.springboot.exception.TestException;
 import hu.gaborbalazs.practice.springboot.repository.CarRepository;
 import hu.gaborbalazs.practice.springboot.service.TestService;
 import springfox.documentation.builders.PathSelectors;
@@ -70,9 +76,12 @@ public class SampleController {
 
 	@Value("${welcome}")
 	private String welcome;
-	
+
 	@Autowired
 	private AopTestBean aopTestBean;
+
+	@Autowired
+	private MyComponent myComponent;
 
 	@RequestMapping("/")
 	public String home() {
@@ -83,6 +92,7 @@ public class SampleController {
 	@RequestMapping("/aop")
 	public String aopTest() {
 		aopTestBean.aopTestMethod();
+		myComponent.nothing();
 		return "aop";
 	}
 
@@ -90,6 +100,12 @@ public class SampleController {
 	public String exceptionTest() {
 		logger.debug(">> exceptionTest()");
 		throw new IllegalStateException();
+	}
+
+	@RequestMapping("/testException")
+	public String exceptionTest2() {
+		logger.debug(">> exceptionTest2()");
+		throw new TestException();
 	}
 
 	@RequestMapping(value = "/scopeTest", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")

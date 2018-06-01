@@ -7,8 +7,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import hu.gaborbalazs.practice.springboot.exception.ExceptionResponse;
+import hu.gaborbalazs.practice.springboot.exception.TestException;
 
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
@@ -21,5 +26,13 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 		logger.debug(">> handleIllegalStateException()");
 		return handleExceptionInternal(ex, "There was an Illegal State Exception", new HttpHeaders(),
 				HttpStatus.BAD_REQUEST, request);
+	}
+
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ResponseBody
+	@ExceptionHandler(TestException.class)
+	public ExceptionResponse handleTestException(RuntimeException ex, WebRequest request) {
+		logger.debug(">> handleTestException()");
+		return new ExceptionResponse("There was a Test Exception");
 	}
 }

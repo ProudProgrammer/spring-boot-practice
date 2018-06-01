@@ -18,9 +18,17 @@ public class GeneralAspect {
 	private void allAopTestMethod() {
 	}
 
+	@Pointcut("@annotation(hu.gaborbalazs.practice.springboot.annotation.MyAnnotation)")
+	private void allMyAnnotationMethod() {
+	}
+
 	@Before("allAopTestMethod()")
 	public void before() {
 		logger.debug("AOP method executed");
 	}
 
+	@Before("allMyAnnotationMethod()")
+	public void beforeService() {
+		logger.debug("MyAnnotation method executed");
+	}
 }
