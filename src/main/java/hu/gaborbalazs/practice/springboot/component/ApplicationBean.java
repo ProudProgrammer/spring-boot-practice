@@ -13,6 +13,9 @@ public class ApplicationBean {
 
 	@Autowired
 	private Logger logger;
+	
+	@Autowired
+	private RequestBean requestBean;
 
 	private int num;
 
@@ -27,5 +30,10 @@ public class ApplicationBean {
 
 	public void increaseNum() {
 		num++;
+		requestBean.increaseNum();
+	}
+	
+	public RequestBean getRequestBean() {
+		return requestBean;
 	}
 }

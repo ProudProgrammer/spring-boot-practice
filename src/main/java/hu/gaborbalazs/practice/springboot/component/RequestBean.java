@@ -4,10 +4,13 @@ import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.annotation.RequestScope;
 
-@RequestScope
+// @RequestScope - ez proxy-t használ
+@Scope(WebApplicationContext.SCOPE_REQUEST)
 @Component
 public class RequestBean {
 
@@ -28,4 +31,5 @@ public class RequestBean {
 	public void increaseNum() {
 		num++;
 	}
+
 }

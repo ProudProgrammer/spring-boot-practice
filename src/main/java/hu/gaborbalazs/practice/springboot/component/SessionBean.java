@@ -4,10 +4,11 @@ import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.annotation.SessionScope;
+import org.springframework.web.context.WebApplicationContext;
 
-@SessionScope
+@Scope(WebApplicationContext.SCOPE_SESSION)
 @Component
 public class SessionBean {
 
